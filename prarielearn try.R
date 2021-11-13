@@ -263,19 +263,62 @@ calculate_pi(xs = x, ys = y)
 
 
 
+assign_letter_grade = function(x, type = "decimal") {
+  
+  if (length(x) != 1) {
+    stop("x must be a vector of length 1.")
+  }
+  
+  if (!is.numeric(x)) {
+    stop("x must be a numeric vector.")
+  }
+  
+  if (type == "percent") {
+    x = x / 100
+  }
+  
+  if (x >= 0.90) {
+    "A"
+  } else if (x >= 0.80) {
+    "B"
+  } else if (x >= 0.70) {
+    "C"
+  } else if (x >= 0.60) {
+    "D"
+  } else {
+    "F"
+  }
+  
+}
+
+create_gradebook = function(num_grades, type){
+  if(type=="decimal"){
+    decimal = num_grades
+    percent = num_grades*100
+    letter = sapply(num_grades, assign_letter_grade, type=type)
+    df <- data.frame(decimal,percent,letter)
+  }
+  if(type=="percent"){
+    decimal = num_grades/100
+    percent = num_grades
+    letter = sapply(num_grades, assign_letter_grade,type=type)
+    df <- data.frame(decimal,percent,letter)
+  }
+  
+  return(df)
+}
 
 
 
 
 
+create_gradebook(num_grades = c(0.77, 0.88, 0.99), type = "decimal")
 
-
-
-
-
-
-
-
+library(dplyr)
+starwars = dplyr::starwars
+# delete this comment and place your code here
+sw_df = starwars %>% 
+  count(homeworld)
 
 
 
